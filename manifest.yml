@@ -1,0 +1,8 @@
+---
+applications:
+- name: ds8-java-rest-service
+  memory: 256M
+  instances: 1
+  host: rest-service
+  domain: devopsds8.net
+  path: build/libs/ds8-java-rest-service-0.1.0.jar
