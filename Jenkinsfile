@@ -26,6 +26,16 @@ stage('Build Docker Image') {
                 script {
                     // Run the Docker image
                     sh '/usr/local/bin/docker run -d -p 8081:8081 --name ds8jrest ds8jrest'
+                    sleep 30
+                }
+            }
+        }
+
+        stage('Mini Smoke Test') {
+            steps {
+                script {
+                    // Perform an HTTP GET request to the application
+                    sh 'curl -f http://localhost:8081/ping'
                 }
             }
         }
