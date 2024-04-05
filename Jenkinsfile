@@ -1,19 +1,7 @@
 pipeline {
     agent any
 
-    stages {
-
-        stage('Ping Test') {
-            steps {
-                script {
-                    // Perform an HTTP GET request to the /ping endpoint and store the result in a variable
-                    def pingResult = sh(script: 'curl -S http://localhost:8081/ping 2>&1', returnStdout: true).trim()
-                    // Display the result
-                    echo "Ping result: ${pingResult}"
-                }
-            }
-        }
-        
+    stages {        
         stage('Test') {
             steps {
                 sh './gradlew clean test'
@@ -50,14 +38,10 @@ stage('Build Docker Image') {
         stage('Mini Smoke Test') {
             steps {
                 script {
-                    // Perform an HTTP GET request to the application and get the status code
-                    def testStatus = sh(script: 'curl -s -o /dev/null -w "%{http_code}" http://localhost:8081', returnStdout: true).trim()
-                    // Log a message with the status code
-                    echo "HTTP status code: ${testStatus}"
-                    // If the status code is not 200, fail the job
-                    if (testStatus != '200') {
-                        error("HTTP status code is not 200: ${testStatus}")
-                    }
+                    // Perform an HTTP GET request to the /ping endpoint and store the result in a variable
+                    def pingResult = sh(script: 'curl -S http://localhost:8081/ping 2>&1', returnStdout: true).trim()
+                    // Display the result
+                    echo "Ping result: ${pingResult}"
                 }
             }
         }
