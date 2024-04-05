@@ -15,6 +15,10 @@ pipeline {
 stage('Build Docker Image') {
             steps {
                 script {
+                    // Stop the Docker container if it's running
+                    sh '/usr/local/bin/docker stop ds8jrest || true'
+                    // Remove the Docker container
+                    sh '/usr/local/bin/docker rm ds8jrest || true'
                     // Build the Docker image
                     sh '/usr/local/bin/docker build -t ds8jrest .'
                 }
