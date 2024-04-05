@@ -21,7 +21,7 @@ pipeline {
                     while (attempts < 5) {
                         echo "Attemps: ${attempts}"
                         // Perform an HTTP GET request to the application and get the status code
-                        def pingResult = sh(script: 'curl -f http://localhost:8081/ping 2>&1', returnStdout: true).trim()
+                        def pingResult = sh(script: 'curl -f http://localhost:8081/ping 2>&1 || true', returnStdout: true).trim()
                         echo "Ping result: ${pingResult}"
                         // Log a message with the status code
                         echo "Smoke test status code: ${testStatus}"
