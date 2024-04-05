@@ -12,7 +12,7 @@ pipeline {
                 sh './gradlew clean build'
             }
         }
-        /*stage('Build Docker Image') {
+        stage('Build Docker Image') {
             steps {
                 script {
                     // Build the Docker image
@@ -20,7 +20,7 @@ pipeline {
                 }
             }
         }
-
+/*
         stage('Run Docker Image') {
             steps {
                 script {
