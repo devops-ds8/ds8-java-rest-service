@@ -23,15 +23,13 @@ pipeline {
                         // Perform an HTTP GET request to the application and get the status code
                         def pingResult = sh(script: 'curl -f http://localhost:8081/ping || true', returnStdout: true).trim()
                         echo "Ping result: ${pingResult}"
-                        // Log a message with the status code
-                        //echo "Smoke test status code: ${testStatus}"
-                        //if (!pingResult.contains('{}')) {
+                        if (!pingResult.contains('{}')) {
                             // If the test failed, wait for 10 seconds before trying again
-                          //  sleep 10
-                        //} else {
+                            sleep 10
+                        } else {
                             // If the test succeeded, break the loop
-                          //  break
-                        //}
+                            break
+                        }
                         // Increment the number of attempts
                         attempts++
                             
