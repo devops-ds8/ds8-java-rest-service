@@ -12,7 +12,7 @@ pipeline {
                 sh './gradlew clean build'
             }
         }
-        stage('Build Docker Image') {
+        /*stage('Build Docker Image') {
             steps {
                 script {
                     // Build the Docker image
@@ -28,6 +28,6 @@ pipeline {
                     sh 'docker run -d -p 8081:8081 --name ds8jrest ds8jrest'
                 }
             }
-        }
+        }*/
     }
 }
