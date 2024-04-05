@@ -36,7 +36,6 @@ stage('Build Docker Image') {
         }
 
         stage('Mini Smoke Test') {
-            stage('Smoke Test') {
             steps {
                 script {
                     // Perform an HTTP GET request to the application and get the status code
