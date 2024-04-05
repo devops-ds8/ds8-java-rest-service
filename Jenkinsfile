@@ -14,7 +14,7 @@ pipeline {
                     }
                 }*/
 
-                /*script {
+                script {
                     // Initialize a counter for the number of attempts
                     def attempts = 0
                     // Run the test in a loop until it succeeds or the maximum number of attempts is reached
@@ -40,7 +40,7 @@ pipeline {
                     if (attempts >= 5) {
                         error('Smoke test failed after 5 attempts')
                     }
-                }*/
+                }
                 
             }
         }
