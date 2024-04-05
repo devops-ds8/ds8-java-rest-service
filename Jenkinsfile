@@ -7,7 +7,7 @@ pipeline {
             steps {
                 script {
                     // Perform an HTTP GET request to the /ping endpoint and store the result in a variable
-                    def pingResult = sh(script: 'curl -s http://localhost:8081/ping', returnStdout: true).trim()
+                    def pingResult = sh(script: 'curl -s http://localhost:8081/ping')
                     // Display the result
                     echo "Ping result: ${pingResult}"
                 }
