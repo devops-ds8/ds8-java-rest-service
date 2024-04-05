@@ -4,15 +4,15 @@ pipeline {
     stages {        
          stage('Ping Test') {
             steps {
-                /*script {
+                script {
                     // Perform an HTTP GET request to the /ping endpoint and store the result in a variable
-                    def pingResult = sh(script: 'curl -S http://localhost:8081/ping 2>&1', returnStdout: true).trim()
+                    def pingResult = sh(script: 'curl -s http://localhost:8081/ping', returnStdout: true).trim()
                     // Display the result
                     echo "Ping result: ${pingResult}"
                     if (!pingResult.contains('{}')) {
                         error("Ping result does not contain '{}': ${pingResult}")
                     }
-                }*/
+                }
 
                 /*script {
                     // Initialize a counter for the number of attempts
