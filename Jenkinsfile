@@ -5,10 +5,12 @@ pipeline {
 
         stage('Ping Test') {
             steps {
-                                    // Perform an HTTP GET request to the /ping endpoint and store the result in a variable
+                script {
+                    // Perform an HTTP GET request to the /ping endpoint and store the result in a variable
                     def pingResult = sh(script: 'curl -s http://localhost:8081/ping || true', returnStdout: true).trim()
                     // Display the result
                     echo "Ping result: ${pingResult}"
+                }
             }
         }
         
