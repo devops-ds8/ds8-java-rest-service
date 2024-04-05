@@ -9,8 +9,8 @@ pipeline {
                     def pingResult = sh(script: 'curl -S http://localhost:8081/ping 2>&1', returnStdout: true).trim()
                     // Display the result
                     echo "Ping result: ${pingResult}"
-                    if (!pingResult.contains('200')) {
-                        error("Ping result does not contain '200': ${pingResult}")
+                    if (!pingResult.contains('{}')) {
+                        error("Ping result does not contain '{}': ${pingResult}")
                     }
                 }
             }
