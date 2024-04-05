@@ -4,15 +4,15 @@ pipeline {
     stages {        
          stage('Ping Test') {
             steps {
-                script {
+                /*script {
                     // Perform an HTTP GET request to the /ping endpoint and store the result in a variable
                     def pingResult = sh(script: 'curl -f http://localhost:8081/ping || true', returnStdout: true).trim()
                     // Display the result
                     echo "Ping result: ${pingResult}"
-                    /*if (!pingResult.contains('{}')) {
+                     (!pingResult.contains('{}')) {
                         error("Ping result does not contain '{}': ${pingResult}")
-                    }*/
-                }
+                    }
+                }*/
 
                 /*script {
                     // Initialize a counter for the number of attempts
@@ -21,7 +21,7 @@ pipeline {
                     while (attempts < 5) {
                         echo "Attemps: ${attempts}"
                         // Perform an HTTP GET request to the application and get the status code
-                        def pingResult = sh(script: 'curl -f http://localhost:8081/ping 2>&1', returnStdout: true).trim()
+                        def pingResult = sh(script: 'curl -f http://localhost:8081/ping || true', returnStdout: true).trim()
                         echo "Ping result: ${pingResult}"
                         // Log a message with the status code
                         echo "Smoke test status code: ${testStatus}"
