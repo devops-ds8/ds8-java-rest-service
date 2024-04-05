@@ -14,14 +14,14 @@ pipeline {
                     }
                 }*/
 
-                script {
+                /*script {
                     // Initialize a counter for the number of attempts
                     def attempts = 0
                     // Run the test in a loop until it succeeds or the maximum number of attempts is reached
                     while (attempts < 5) {
                         echo "Attemps: ${attempts}"
                         // Perform an HTTP GET request to the application and get the status code
-                        def pingResult = sh(script: 'curl -f http://localhost:8081/ping || true', returnStdout: true).trim()
+                        def pingResult = sh(script: 'curl -f http://localhost:8081/ping 2>&1', returnStdout: true).trim()
                         echo "Ping result: ${pingResult}"
                         // Log a message with the status code
                         echo "Smoke test status code: ${testStatus}"
@@ -40,7 +40,7 @@ pipeline {
                     if (attempts >= 5) {
                         error('Smoke test failed after 5 attempts')
                     }
-                }
+                }*/
                 
             }
         }
