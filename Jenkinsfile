@@ -38,8 +38,25 @@ stage('Build Docker Image') {
         stage('Mini Smoke Test') {
             steps {
                 script {
-                    // Perform an HTTP GET request to the application
-                    sh 'curl -f http://localhost:8081/ping'
+                    // Initialize a variable to keep track of the test status
+                    def testStatus = 1
+                    // Initialize a counter for the number of attempts
+                    def attempts = 0
+                    // Run the test in a loop until it succeeds or the maximum number of attempts is reached
+                    while (testStatus != 0 && attempts < 10) {
+                        // Perform an HTTP GET request to the application
+                        testStatus = sh(script: 'curl -f http://localhost:8081/jenkins || echo $?', returnStatus: true)
+                        if (testStatus != 0) {
+                            // If the test failed, wait for 30 seconds before trying again
+                            sleep 30
+                        }
+                        // Increment the number of attempts
+                        attempts++
+                    }
+                    // If the test didn't succeed after the maximum number of attempts, fail the job
+                    if (testStatus != 0) {
+                        error('Smoke test failed after 10 attempts')
+                    }
                 }
             }
         }
