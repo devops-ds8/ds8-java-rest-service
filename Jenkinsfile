@@ -45,7 +45,7 @@ stage('Build Docker Image') {
                     // Run the test in a loop until it succeeds or the maximum number of attempts is reached
                     while (testStatus != 0 && attempts < 10) {
                         // Perform an HTTP GET request to the application
-                        testStatus = sh(script: 'curl -f http://localhost:8081/jenkins || echo $?', returnStatus: true)
+                        testStatus = sh(script: 'curl -f http://localhost:8081/ping || echo $?', returnStatus: true)
                         if (testStatus != 0) {
                             // If the test failed, wait for 30 seconds before trying again
                             sleep 30
