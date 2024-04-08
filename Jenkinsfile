@@ -14,14 +14,24 @@ pipeline {
             }
         }
 stage('Build Docker Image') {
-            steps {
+        when { 
+            anyOf {
+                branch 'main'
+                branch 'develop'
+                }
+        }
+        steps {
                 script {
+                    def imageName = 'ds8jrest'
+                    if (env.BRANCH_NAME == 'develop') {
+                        imageName = "${imageName}-staging"
+                    }
                     // Stop the Docker container if it's running
-                    sh '/usr/local/bin/docker stop ds8jrest || true'
+                    sh "/usr/local/bin/docker stop ${imageName} || true"
                     // Remove the Docker container
-                    sh '/usr/local/bin/docker rm ds8jrest || true'
+                    sh "/usr/local/bin/docker rm ${imageName} || true"
                     // Build the Docker image
-                    sh '/usr/local/bin/docker build -t ds8jrest .'
+                    sh "/usr/local/bin/docker build -t ${imageName} ."
                 }
             }
         }
@@ -31,8 +41,8 @@ stage('Build Docker Image') {
         anyOf {
             branch 'main'
             branch 'develop'
-        }
-    }
+                }
+                }
             steps {
                 script {
                 def containerName = 'ds8jrest'
@@ -43,7 +53,6 @@ stage('Build Docker Image') {
                 }
                 // Run the Docker image
                 sh "/usr/local/bin/docker run -d -p ${hostPort}:8081 --name ${containerName} ds8jrest"    
-                //sh "/usr/local/bin/docker run -d -p ${port}:8081 --name ${containerName} ds8jrest"
                 sleep 30
                 }
             }
@@ -51,17 +60,24 @@ stage('Build Docker Image') {
 
         stage('Mini Smoke Test') {
             when {
-              branch 'main'
+              anyOf {
+            branch 'main'
+            branch 'develop'
+                }
             }
             steps {
                 script {
+                    def hostPort = '8081'
+                    if (env.BRANCH_NAME == 'develop') {
+                        hostPort = '8082'
+                    }
                     // Initialize a counter for the number of attempts
                     def attempts = 0
                     // Run the test in a loop until it succeeds or the maximum number of attempts is reached
                     while (attempts < 20) {
                         echo "Attemps: ${attempts}"
                         // Perform an HTTP GET request to the application and get the status code
-                        def pingResult = sh(script: 'curl -f http://localhost:8081/ping || true', returnStdout: true).trim()
+                        def pingResult = sh(script: "curl -f http://localhost:${hostPort}/ping || true", returnStdout: true).trim()
                         echo "Ping result: ${pingResult}"
                         if (!pingResult.contains('{}')) {
                             // If the test failed, wait for 10 seconds before trying again
