@@ -14,14 +14,22 @@ pipeline {
             }
         }
 stage('Build Docker Image') {
-            steps {
+     anyOf {
+            branch 'main'
+            branch 'develop'
+                }        
+    steps {
                 script {
+                    def imageName = 'ds8jrest'
+                    if (env.BRANCH_NAME == 'develop') {
+                        imageName = "${imageName}-staging"
+                    }
                     // Stop the Docker container if it's running
-                    sh '/usr/local/bin/docker stop ds8jrest || true'
+                    sh "/usr/local/bin/docker stop ${imageName} || true"
                     // Remove the Docker container
-                    sh '/usr/local/bin/docker rm ds8jrest || true'
+                    sh "/usr/local/bin/docker rm ${imageName} || true"
                     // Build the Docker image
-                    sh '/usr/local/bin/docker build -t ds8jrest .'
+                    sh "/usr/local/bin/docker build -t ${imageName} ."
                 }
             }
         }
