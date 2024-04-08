@@ -27,6 +27,9 @@ stage('Build Docker Image') {
         }
 
         stage('Run Docker Image') {
+            when {
+              branch 'main'
+            }
             steps {
                 script {
                     // Run the Docker image
@@ -37,6 +40,9 @@ stage('Build Docker Image') {
         }
 
         stage('Ping Test') {
+            when {
+              branch 'main'
+            }
             steps {
                 /*script {
                     // Perform an HTTP GET request to the /ping endpoint and store the result in a variable
