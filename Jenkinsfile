@@ -27,18 +27,23 @@ stage('Build Docker Image') {
         }
 
         stage('Run Docker Image') {
+            when {
+        anyOf {
+            branch 'main'
+            branch 'develop'
+        }
+    }
             steps {
                 script {
-                if (env.BRANCH_NAME == 'main') {
-                    // Run the Docker image
-                    sh '/usr/local/bin/docker run -d -p 8081:8081 --name ds8jrest ds8jrest'
-                    sleep 30
+                def containerName = 'ds8jrest'
+                def hostPort = '8081'    
+                if (env.BRANCH_NAME == 'develop') {
+                    containerName = '${containerName}-staging'
+                    hostPort = '8082'
                 }
-                if (env.BRANCH_NAME == 'staging') {
-                    // Run the Docker image
-                    sh '/usr/local/bin/docker run -d -p 8082:8081 --name ds8jrest-staging ds8jrest'
-                    sleep 30
-                }    
+                // Run the Docker image
+                sh '/usr/local/bin/docker run -d -p ${port}:8081 --name ${containerName} ds8jrest'
+                sleep 30
                 }
             }
         }
