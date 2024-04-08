@@ -38,12 +38,12 @@ stage('Build Docker Image') {
                 def containerName = 'ds8jrest'
                 def hostPort = '8081'    
                 if (env.BRANCH_NAME == 'develop') {
-                    containerName = '${containerName}-staging'
+                    containerName = "${containerName}-staging"
                     hostPort = '8082'
                 }
                 // Run the Docker image
-                sh "/usr/local/bin/docker run -d -p ${port}:8081 --name ${containerName} ds8jrest"
-                sleep 30
+                //sh "/usr/local/bin/docker run -d -p ${port}:8081 --name ${containerName} ds8jrest"
+                //sleep 30
                 }
             }
         }
