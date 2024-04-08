@@ -14,10 +14,12 @@ pipeline {
             }
         }
 stage('Build Docker Image') {
-     anyOf {
+    When { 
+    anyOf {
             branch 'main'
             branch 'develop'
-                }        
+                }
+    }
     steps {
                 script {
                     def imageName = 'ds8jrest'
