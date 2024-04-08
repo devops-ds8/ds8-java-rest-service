@@ -42,8 +42,9 @@ stage('Build Docker Image') {
                     hostPort = '8082'
                 }
                 // Run the Docker image
+                sh '/usr/local/bin/docker run -d -p 8081:8081 --name ds8jrest ds8jrest'    
                 //sh "/usr/local/bin/docker run -d -p ${port}:8081 --name ${containerName} ds8jrest"
-                //sleep 30
+                sleep 30
                 }
             }
         }
