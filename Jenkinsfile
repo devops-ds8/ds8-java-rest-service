@@ -27,33 +27,27 @@ stage('Build Docker Image') {
         }
 
         stage('Run Docker Image') {
-            when {
-              branch 'main'
-            }
             steps {
                 script {
+                if (env.BRANCH_NAME == 'main') {
                     // Run the Docker image
                     sh '/usr/local/bin/docker run -d -p 8081:8081 --name ds8jrest ds8jrest'
                     sleep 30
                 }
+                if (env.BRANCH_NAME == 'staging') {
+                    // Run the Docker image
+                    sh '/usr/local/bin/docker run -d -p 8082:8081 --name ds8jrest-staging ds8jrest'
+                    sleep 30
+                }    
+                }
             }
         }
 
-        stage('Ping Test') {
+        stage('Mini Smoke Test') {
             when {
               branch 'main'
             }
             steps {
-                /*script {
-                    // Perform an HTTP GET request to the /ping endpoint and store the result in a variable
-                    def pingResult = sh(script: 'curl -f http://localhost:8081/ping || true', returnStdout: true).trim()
-                    // Display the result
-                    echo "Ping result: ${pingResult}"
-                     (!pingResult.contains('{}')) {
-                        error("Ping result does not contain '{}': ${pingResult}")
-                    }
-                }*/
-
                 script {
                     // Initialize a counter for the number of attempts
                     def attempts = 0
